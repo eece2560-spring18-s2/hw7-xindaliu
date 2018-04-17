@@ -31,7 +31,7 @@ void Member::PathToMemberBFS(uint64_t dst_member_id) {
       if(u.dst->member_id == dst_member_id) {
            PrintPath(u.dst);
         }
-      if(u.dst->color == COLOR_WHITE) {
+      if(u.dst->color == COLOR_BLACK) {
         u.dst->color = COLOR_GRAY;
         u.dst->key += 1;
         u.dst->parent = m;
