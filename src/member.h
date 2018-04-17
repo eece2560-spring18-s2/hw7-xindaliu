@@ -29,7 +29,6 @@ class MemberConnection {
 };
 
 class Member {
-  // Add extra private fields and private methods if necessary.
 
  public:
   uint64_t member_id;

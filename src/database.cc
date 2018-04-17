@@ -158,7 +158,6 @@ void Database::AssociateMembersWithGroups() {
 }
 
 void Database::RandomizeGraph(int num_connections) {
-  // Create some random connections to make the problem more interesting.
   srand(0);
   for (int i = 0; i < num_connections; i++) {
     int src_index = rand() % members.size();

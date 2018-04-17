@@ -18,7 +18,6 @@ void Member::DumpConnections() {
 }
 
 void Member::PathToMemberBFS(uint64_t dst_member_id) {
-  // Fill in your code here.
   std::queue<Member *> myq;
   this->color = COLOR_GRAY;
   this->parent = NULL;
