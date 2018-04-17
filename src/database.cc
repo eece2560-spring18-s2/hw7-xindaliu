@@ -6,6 +6,7 @@
 #include <limits>
 #include <queue>
 #include <map>
+#include <climits>
 
 #include "member.h"
 #include "csv_reader.h"
@@ -195,11 +196,65 @@ void Database::LoadData(const std::string &data_folder_path,
 
 
 void Database::BuildMemberGraph() {
-  // Fill in your code here
+  for (Group *g : groups){
+    for (Member *m : g->members){
+      for (Member *m2 : g->members){
+        if(m == m2){
+          continue;
+        }
+        if (m->connecting_members.find(m2->member_id) != m->connecting_members.end()){
+          continue;
+        }
+        MemberConnection mymc;
+        mymc.group = g;
+        mymc.dst = m2;
+        m->connecting_members [m2->member_id] = mymc;
+      }
+    }
+  }
 }
 
 double Database::BestGroupsToJoin(Member *root) {
-  // Fill in your code here
+  for(unsigned int i = 0; i < members.size(); i+=1) {
+   members[i]->parent = NULL;
+   members[i]->color = COLOR_WHITE;
+   members[i]->key = std::numeric_limits<int>::max() * 0.5; 
+ }
+ 
+ root->key = 0;
+ std::vector<Member *> v;
+ 
+ for(unsigned int i = 0; i < members.size(); i+=1) {
+   v.push_back(members[i]);
+ }
+ 
+ Member *m;
+ int j, min;
+ 
+ while(!v.empty()) {
+   min = std::numeric_limits<int>::max();
+   for(unsigned int i = 0; i < v.size(); i+=1) {
+     if(min > v[i]->key) {
+       min = v[i]->key;
+       m = v[i];
+       j = i;
+     }
+   }
+   v.erase(v.begin() + j);
+   m->color = COLOR_BLACK;
+   for(auto it : m->connecting_members) {
+     Member * u = it.second.dst;
+     if((u->color != COLOR_BLACK) && it.second.GetWeight() < u->key){
+          u->parent = m;
+          u->key = it.second.GetWeight();
+        }
+   }
+ }
+ double total = 0.0;
+  for(unsigned int i = 0; i < members.size(); i++){
+    total = total + members[i]->key;
+  }
+  return total;
 }
 
 }

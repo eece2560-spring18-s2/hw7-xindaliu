@@ -45,11 +45,13 @@ class Member {
   void PathToMemberIDDFS(uint64_t dst_member_id);
   void PrintPath(Member *dst);
   void DumpConnections();
+  
 
   // For graph algorithms
   int color = COLOR_WHITE;
   double key; // For BST DFT, this is the depth. For MST, this is the key.
   Member *parent;
+  Member *DLS(Member * node, int iteration, uint64_t dst_member_id);
 };
 
 }
